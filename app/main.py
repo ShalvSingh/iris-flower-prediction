@@ -1,9 +1,15 @@
 from flask import Flask, request, jsonify
 import joblib
 import numpy as np
+import os
 
 # load the model
-model = joblib.load("../model/iris_model.pkl")
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # folder where main.py is
+MODEL_PATH = os.path.join(BASE_DIR, "../model/iris_model.pkl")
+
+model = joblib.load(MODEL_PATH)
+# model = joblib.load("../model/iris_model.pkl")
 
 # create Flask app
 app = Flask(__name__)
