@@ -20,11 +20,25 @@ def home():
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    data = request.get_json() # Expect json input
-    features = np.array(data["features"]).reshape(1, -1) # 2d array
-    prediction = model.predict(features)[0]
+    # data = request.get_json() # Expect json input
+    # features = np.array(data["features"]).reshape(1, -1) # 2d array
+    # prediction = model.predict(features)[0]
 
-    return jsonify({"prediction": int(prediction)})
+    # return jsonify({"prediction": int(prediction)})
 
+    try:
+        # Read form values
+        sl = float(request.form["sepal_length"])
+        sw = float(request.form["sepal_width"])
+        pl = float(request.form["petal_length"])
+        pw = float(request.form["petal_width"])
+
+        # Make prediction
+        features = np.array([[sl, sw, pl, pw]])
+        prediction = model.predict(features)[0]
+
+        return render_template("index.html", prediction=prediction)
+    except Exception as e:
+        return str(e)
 if __name__ == "__main__":
     app.run(debug=True)
