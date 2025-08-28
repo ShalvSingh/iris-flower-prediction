@@ -25,20 +25,20 @@ def predict():
     # prediction = model.predict(features)[0]
 
     # return jsonify({"prediction": int(prediction)})
+    if request.method == "POST":
+        try:
+            # Read form values
+            sl = float(request.form["sepal_length"])
+            sw = float(request.form["sepal_width"])
+            pl = float(request.form["petal_length"])
+            pw = float(request.form["petal_width"])
 
-    try:
-        # Read form values
-        sl = float(request.form["sepal_length"])
-        sw = float(request.form["sepal_width"])
-        pl = float(request.form["petal_length"])
-        pw = float(request.form["petal_width"])
+            # Make prediction
+            features = np.array([[sl, sw, pl, pw]])
+            prediction = model.predict(features)[0]
 
-        # Make prediction
-        features = np.array([[sl, sw, pl, pw]])
-        prediction = model.predict(features)[0]
-
-        return render_template("index.html", prediction=prediction)
-    except Exception as e:
-        return str(e)
+            return render_template("index.html", prediction=prediction)
+        except Exception as e:
+            return str(e)
 if __name__ == "__main__":
     app.run(debug=True)
