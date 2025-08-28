@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, render_template ,jsonify
 import joblib
 import numpy as np
 import os
@@ -16,7 +16,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Iris Flower Prediction API is running"
+    return render_template("index.html")
 
 @app.route("/predict", methods=["POST"])
 def predict():
