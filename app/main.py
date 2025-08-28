@@ -25,7 +25,8 @@ def predict():
     # prediction = model.predict(features)[0]
 
     # return jsonify({"prediction": int(prediction)})
-    if request.method == "POST":
+    # if request.method == "POST":
+        print("Prediction route triggered")
         try:
             # Read form values
             sl = float(request.form["sepal_length"])
@@ -34,11 +35,15 @@ def predict():
             pw = float(request.form["petal_width"])
 
             # Make prediction
-            features = np.array([[sl, sw, pl, pw]])
-            prediction = model.predict(features)[0]
+            prediction = model.predict([[sl, sw, pl, pw]])[0]
+            # prediction = model.predict(features)[0]
+            # Map number → flower name
+            flower_map = {0: "Iris Setosa 🌸", 1: "Iris Versicolor 🌿", 2: "Iris Virginica 🌺"}
+            flower_name = flower_map[prediction]
+            
 
-            return render_template("index.html", prediction=prediction)
+            return render_template("index.html", prediction=flower_name)
         except Exception as e:
-            return str(e)
+            return render_template("index.html", prediction=f"Error: {str(e)}")
 if __name__ == "__main__":
     app.run(debug=True)
